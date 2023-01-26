@@ -14,7 +14,7 @@ export class NumberFormatter {
   };
   private separators : Separators = { thousand: 1000, hundred: 100, decimal: 10, digits: 1 }
 
-  formatStringArray = (wordsList: string[]): string => {
+  protected formatStringArray = (wordsList: string[]): string => {
     if (Object.values(this.digits).includes(wordsList.at(-2)!)) {
       const tmp = wordsList.pop();
       wordsList[wordsList.length - 1] += '-' + tmp;
@@ -22,7 +22,7 @@ export class NumberFormatter {
     return new (Intl as any).ListFormat('en-GB', { style: 'long', type: 'conjunction' }).format(wordsList);
   }
 
-  numberFormatter = (number: number): string => {
+  protected numberFormatter = (number: number): string => {
     let wordsList: string[] = [];
     for (let key in this.separators) {
         if (number >= this.separators[key]) {
@@ -36,7 +36,7 @@ export class NumberFormatter {
     return this.formatStringArray(wordsList);
   }
 
-  format = (number: number) => {
+  public format = (number: number) => {
     if(isNaN(number)) {
       throw new Error('Not a number');
     } else if(number < 0 || number > 100000 ) {
